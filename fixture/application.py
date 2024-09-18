@@ -5,7 +5,7 @@ from webdriver_manager.microsoft import IEDriverManager
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 from fixture.session import SessionHelper
-
+from fixture.project import ProjectHelper
 
 
 class Application:
@@ -27,6 +27,7 @@ class Application:
         self.base_url = base_url
         self.login = login
         self.password = password
+        self.project = ProjectHelper(self)
 
     def open_home_page(self):
         wd = self.wd
