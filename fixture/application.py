@@ -7,6 +7,8 @@ from selenium.webdriver.support.ui import Select
 from fixture.session import SessionHelper
 from fixture.project import ProjectHelper
 from fixture.james import JamesHelper
+from fixture.signup import SignupHelper
+from fixture.mail import MailHelper
 
 
 class Application:
@@ -31,6 +33,8 @@ class Application:
         self.password = config['webadmin']['password']
         self.project = ProjectHelper(self)
         self.james = JamesHelper(self)
+        self.signup = SignupHelper(self)
+        self.mail = MailHelper(self)
 
     def open_home_page(self):
         wd = self.wd
