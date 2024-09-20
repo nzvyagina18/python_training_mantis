@@ -6,10 +6,11 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import Select
 from fixture.session import SessionHelper
 from fixture.project import ProjectHelper
+from fixture.james import JamesHelper
 
 
 class Application:
-    def __init__(self, browser, base_url, login, password):
+    def __init__(self, browser, config): #base_url, login, password):
 
         if browser == 'firefox':
             #self.wd = webdriver.Firefox()
@@ -24,10 +25,12 @@ class Application:
         else:
             raise ValueError("Unrecognized browser %s", browser)
         self.session = SessionHelper(self)
-        self.base_url = base_url
-        self.login = login
-        self.password = password
+        self.config = config
+        self.base_url = config['web']['baseUrl']
+        self.login = config['webadmin']['username']
+        self.password = config['webadmin']['password']
         self.project = ProjectHelper(self)
+        self.james = JamesHelper(self)
 
     def open_home_page(self):
         wd = self.wd
