@@ -18,19 +18,17 @@ def load_config(file):
 
 @pytest.fixture(scope='session')
 def config(request):
-    return load_config(request.config.getoption("--target"))
+    conf = load_config(request.config.getoption("--target"))
+    return conf
 
 @pytest.fixture
-def app(request, config):
+def app(request, config, login_needed):
     global fixture
     browser = request.config.getoption("--browser")
-    #web_config = load_config(request.config.getoption("--target"))["web"]
-    #web_admin = load_config(request.config.getoption("--target"))["webadmin"]
     if fixture is None or not fixture.is_valid():
-        #fixture = Application(browser=browser, base_url=web_config['baseURL'],
-                              #login=web_admin['username'],password=web_admin['password'])
         fixture = Application(browser=browser, config=config)
-    #fixture.session.ensure_login(username=web_admin["username"], password=web_admin["password"])
+    if login_needed:
+        fixture.session.ensure_login(username=config['webadmin']["username"], password=config['webadmin']["password"])
     return fixture
 
 @pytest.fixture(scope='session', autouse=True)
@@ -64,9 +62,12 @@ def stop(request):
     request.addfinalizer(fin)
     return fixture
 
+@pytest.fixture
+def login_needed(request):
+    return request.config.getoption("--login_needed")
 
 def pytest_addoption(parser):
     parser.addoption("--browser", action='store', default='firefox')
     parser.addoption("--target", action='store', default="target.json")
-    parser.addoption("--check_ui", action='store_true')
+    parser.addoption("--login_needed", action='store_true')
 
