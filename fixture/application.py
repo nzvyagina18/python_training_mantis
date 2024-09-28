@@ -36,7 +36,7 @@ class Application:
         self.james = JamesHelper(self)
         self.signup = SignupHelper(self)
         self.mail = MailHelper(self)
-        self.soap = SoapHelper(self, self.login, self.password)
+        self.soap = SoapHelper(self, self.login, self.password, self.base_url)
 
     def open_home_page(self):
         wd = self.wd

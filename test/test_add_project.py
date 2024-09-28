@@ -14,15 +14,10 @@ def test_add_project(app, login_needed):
     assert sorted(old_list, key=Project.id_or_max) == sorted(new_list, key=Project.id_or_max)
 
 
-def test_get_project_list(app):
-    app.session.login("administrator", "root")
-    app.soap.get_project_list('administrator', 'root')
-
-
 def test_add_project_soap(app, login_needed):
     app.session.login(app.login, app.password)
-    new_project = Project(name='project6', status='release', igc=True, view_status='public',
-                          description='project6 description')
+    new_project = Project(name='project7', status='release', igc=True, view_status='public',
+                          description='project7 description')
     if app.project.exists(new_project):
         app.project.delete(new_project)
     old_list = app.soap.get_project_list()
